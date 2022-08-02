@@ -112,8 +112,8 @@ def main():
     # create our context dict. Every skillet requires a context that contains connection information
     # as well as any vars required for that particular skillet
 
-    skillet_context = dict()
-    skillet_context.update(module.params['vars'])
+    skillet_context = {}
+    skillet_context |= module.params['vars']
     skillet_context.update(module.params['provider'])
 
     skillet_loader = SkilletLoader(module.params['skillet_path'])

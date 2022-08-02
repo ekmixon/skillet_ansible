@@ -112,8 +112,8 @@ def main():
     # create our context dict. Every skillet requires a context that contains connection information
     # as well as any vars required for that particular skillet
 
-    skillet_context = dict()
-    skillet_context.update(module.params['vars'])
+    skillet_context = {}
+    skillet_context |= module.params['vars']
     skillet_context.update(module.params['provider'])
 
     skillet_loader = SkilletLoader(module.params['skillet_path'])
@@ -124,7 +124,7 @@ def main():
         module.fail_json(msg='Could not find Skillet with name {0}'.format(module.params['skillet']))
 
     # refuse to run any non panos / panorama skillet types
-    if not skillet.type == 'pan_validation':
+    if skillet.type != 'pan_validation':
         module.fail_json(msg='Invalid Skillet Type')
 
     try:
